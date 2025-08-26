@@ -1,79 +1,174 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sistem Validasi Data Warga</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pendataan Warga RT</title>
+  <link rel="stylesheet" href="style.css"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </head>
 <body>
-  <header>
-    <h1>Sistem Validasi Data Warga Desa</h1>
-    <nav>
-      <button onclick="showSection('beranda')">Beranda</button>
-      <button onclick="showSection('form')">Update Data</button>
-      <button onclick="showSection('dashboard')">Dashboard RT/RW</button>
-    </nav>
+  <header class="site-header">
+    <div class="wrap">
+      <h1>Aplikasi Pendataan Warga RT</h1>
+      <nav class="nav">
+        <button class="nav-btn" onclick="UI.show('beranda')">Beranda</button>
+        <button class="nav-btn" onclick="UI.show('form')">Form</button>
+        <button class="nav-btn" onclick="UI.show('dashboard')">Dashboard RT</button>
+      </nav>
+    </div>
   </header>
 
-  <main>
+  <main class="wrap">
     <!-- BERANDA -->
-    <section id="beranda" class="active">
-      <h2>Contoh Kesalahan Data</h2>
-      <p>Tabel berikut memperlihatkan potensi kesalahan umum yang sering terjadi:</p>
-      <table>
-        <thead>
-          <tr>
-            <th>Jenis Data</th>
-            <th>Kesalahan Umum</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>Nama</td><td>Perbedaan ejaan di KTP vs Ijazah</td></tr>
-          <tr><td>Nama Orang Tua</td><td>Tidak sesuai antara Akta & KK</td></tr>
-          <tr><td>Tanggal Lahir</td><td>Beda format di Akta vs Ijazah</td></tr>
-          <tr><td>Pendidikan Terakhir</td><td>Belum diupdate setelah lulus</td></tr>
-          <tr><td>Pekerjaan</td><td>Data lama (belum update setelah pindah kerja)</td></tr>
-        </tbody>
-      </table>
+    <section id="beranda" class="section active">
+      <div class="card">
+        <h2>Contoh Kesalahan Data (Agar Jadi Perhatian)</h2>
+        <p>Berikut contoh kesalahan umum yang sering terjadi pada dokumen kependudukan. Mohon warga & pengurus RT/RW/Pemdes memperhatikan dan melakukan koreksi bila ditemukan:</p>
+        <div class="table-scroll">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Jenis Dokumen</th>
+                <th>Field</th>
+                <th>Contoh Kesalahan</th>
+                <th>Dampak</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>KTP vs Ijazah</td><td>Nama Lengkap</td><td>“BUDI SANTOSO” vs “BUDI S.”</td><td>Penolakan verifikasi kerja/beasiswa</td></tr>
+              <tr><td>KK vs Akta</td><td>Nama Ayah/Ibu</td><td>“SOEKARNO” vs “SUKARNO”</td><td>Masalah administrasi sekolah/waris</td></tr>
+              <tr><td>Akta vs Ijazah</td><td>Tanggal Lahir</td><td>“2001-07-05” vs “05/07/2001”</td><td>Gagal pencocokan NIK</td></tr>
+              <tr><td>Buku Nikah</td><td>Nama Suami/Istri</td><td>Salah ejaan salah satu pihak</td><td>Masalah layanan perbankan/dukcapil</td></tr>
+              <tr><td>Data Berkala</td><td>Pendidikan & Pekerjaan</td><td>Belum diupdate setelah lulus/pindah kerja</td><td>Data bantuan tidak tepat sasaran</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </section>
 
-    <!-- FORM UPDATE -->
-    <section id="form">
-      <h2>Form Update Data Warga</h2>
-      <form id="dataForm">
-        <label>Nama Lengkap: <input type="text" id="nama" required></label>
-        <label>NIK: <input type="text" id="nik" required></label>
-        <label>Nama Ayah: <input type="text" id="ayah" required></label>
-        <label>Nama Ibu: <input type="text" id="ibu" required></label>
-        <label>Pendidikan Terakhir: <input type="text" id="pendidikan" required></label>
-        <label>Pekerjaan: <input type="text" id="pekerjaan" required></label>
-        <button type="submit">Simpan</button>
-      </form>
+    <!-- FORM -->
+    <section id="form" class="section">
+      <div class="card">
+        <h2>Formulir Data KK</h2>
+        <form id="kkForm">
+          <fieldset>
+            <legend>1️⃣ Data KK Lengkap</legend>
+            <div class="grid">
+              <label>Nomor KK<input type="text" name="nomorKK" required></label>
+              <label>Jalan<input type="text" name="jalan" required></label>
+              <label>Desa/Kelurahan<input type="text" name="desa" required></label>
+              <label>Kecamatan<input type="text" name="kecamatan" required></label>
+              <label>Kabupaten<input type="text" name="kabupaten" required></label>
+              <label>Provinsi<input type="text" name="provinsi" required></label>
+              <label>RT<input type="number" name="rt" required></label>
+              <label>RW<input type="number" name="rw" required></label>
+              <label>Nama Ketua RT (pengisi)<input type="text" name="namaKetuaRT" required></label>
+              <label>Kepala Keluarga<input type="text" name="kepalaKeluarga" required></label>
+              <label>Jumlah Anggota KK<input type="number" name="jumlahAnggota" readonly></label>
+              <label>Tanggal Pembuatan KK<input type="date" name="tanggalPembuatanKK" required></label>
+              <label>Status KK
+                <select name="statusKK">
+                  <option>Baru</option>
+                  <option>Update</option>
+                  <option>Koreksi</option>
+                </select>
+              </label>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>2️⃣ Data Anggota Keluarga Terperinci</legend>
+            <div id="anggotaList"></div>
+            <button type="button" class="btn" onclick="Form.addAnggota()">+ Tambah Anggota</button>
+          </fieldset>
+
+          <fieldset>
+            <legend>3️⃣ Perubahan Administrasi</legend>
+            <div id="perubahanList"></div>
+            <button type="button" class="btn" onclick="Form.addPerubahan()">+ Tambah Perubahan</button>
+          </fieldset>
+
+          <fieldset>
+            <legend>4️⃣ Catatan & Verifikasi RT</legend>
+            <div class="grid">
+              <label>Status Validasi
+                <select name="statusValidasi">
+                  <option>Belum Dicek</option>
+                  <option>Sesuai</option>
+                  <option>Ada Kesalahan</option>
+                </select>
+              </label>
+              <label>Catatan Verifikasi RT<textarea name="catatanVerifikasi"></textarea></label>
+              <label>Tanda Tangan / Inisial RT<input type="text" name="inisialRT"></label>
+            </div>
+          </fieldset>
+
+          <div class="actions">
+            <button type="button" class="btn warn" onclick="Storage.saveDraft()">💾 Simpan Draft</button>
+            <button type="button" class="btn primary" onclick="Storage.saveFinal()">✅ Simpan Final (tampil di bawah)</button>
+            <button type="button" class="btn" onclick="Export.toExcel()">⬇️ Export Excel</button>
+            <button type="button" class="btn ghost" onclick="Storage.clearDraft()">🗑️ Hapus Draft</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="card">
+        <h3>Data Final Tersimpan (Per KK)</h3>
+        <div class="table-scroll">
+          <table class="table" id="finalTable">
+            <thead>
+              <tr>
+                <th>Nomor KK</th><th>Kepala Keluarga</th><th>RT/RW</th><th>Alamat</th>
+                <th>Jml Anggota</th><th>Status Validasi</th><th>Kesalahan Terdeteksi</th><th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
     </section>
 
     <!-- DASHBOARD -->
-    <section id="dashboard">
-      <h2>Dashboard RT/RW/Pemdes</h2>
-      <table id="dataTable">
-        <thead>
-          <tr>
-            <th>Nama</th>
-            <th>NIK</th>
-            <th>Ayah</th>
-            <th>Ibu</th>
-            <th>Pendidikan</th>
-            <th>Pekerjaan</th>
-            <th>Status Validasi</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
+    <section id="dashboard" class="section">
+      <div class="card">
+        <h2>Dashboard RT</h2>
+        <div class="dash-grid">
+          <div class="stat"><div class="stat-num" id="statKK">0</div><div class="stat-label">Total KK</div></div>
+          <div class="stat"><div class="stat-num" id="statAnggota">0</div><div class="stat-label">Total Anggota</div></div>
+          <div class="stat"><div class="stat-num" id="statErr">0</div><div class="stat-label">Anggota Bermasalah ⚠️</div></div>
+          <div class="stat"><div class="stat-num" id="statUpdate">0</div><div class="stat-label">Perlu Update Bulanan</div></div>
+        </div>
+
+        <div class="filters">
+          <label>Filter:
+            <select id="dashFilter" onchange="Dashboard.render()">
+              <option value="all">Semua</option>
+              <option value="error">Hanya Bermasalah ⚠️</option>
+              <option value="penambahan">Penambahan</option>
+              <option value="pengurangan">Pengurangan</option>
+              <option value="koreksi">Koreksi</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="table-scroll">
+          <table class="table" id="mismatchTable">
+            <thead>
+              <tr>
+                <th>KK</th><th>Nama Anggota</th><th>Jenis Mismatch</th><th>Detail</th><th>Tanggal</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
     </section>
   </main>
 
-  <footer>
-    <p>&copy; 2025 Sistem Data Warga Desa</p>
+  <footer class="site-footer">
+    <div class="wrap">&copy; 2025 Aplikasi RT</div>
   </footer>
 
   <script src="script.js"></script>
