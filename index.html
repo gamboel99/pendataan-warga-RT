@@ -17,7 +17,7 @@
     </nav>
   </header>
 
-  <main>
+  <main class="container">
     <section id="beranda" class="active">
       <h2>Petunjuk Pengisian</h2>
       <p>Isi formulir dengan data sesuai dokumen resmi. Jika ada ketidaksesuaian, beri tanda ⚠️.</p>
@@ -34,10 +34,11 @@
       <form id="kkForm">
         <label>Nomor KK <input type="text" name="nomorKK" required></label>
         <label>Nama Kepala Keluarga <input type="text" name="kepalaKeluarga" required></label>
-        <label>Alamat Lengkap <textarea name="alamat" required></textarea></label>
+        <label>Alamat Lengkap (Jalan, Desa, Kecamatan, Kabupaten, Provinsi) <textarea name="alamat" required></textarea></label>
         <label>RT <input type="number" name="rt" required></label>
         <label>RW <input type="number" name="rw" required></label>
         <label>Nama Ketua RT <input type="text" name="namaKetuaRT" required></label>
+        <label>Jumlah Anggota KK <input type="number" name="jumlahAnggota" readonly></label>
         <label>Tanggal Pembuatan KK <input type="date" name="tanggalPembuatanKK" required></label>
         <label>Status KK
           <select name="statusKK">
