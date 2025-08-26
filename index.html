@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -9,48 +8,94 @@
 </head>
 <body>
 <div class="container">
-<h2>Formulir Data Keluarga</h2>
-<form id="kkForm">
-  <h3>Data KK</h3>
-  <label>Nomor KK</label>
-  <input type="text" name="nomor_kk" required>
-  <label>Alamat</label>
-  <textarea name="alamat" rows="2" required></textarea>
-  
-  <label>RT</label>
-  <input type="text" name="rt" required>
-  <label>RW</label>
-  <input type="text" name="rw" required>
-<label>Kepala Keluarga</label>
-  <input type="text" name="kepala_keluarga" required>
 
-  <h3>Anggota Keluarga</h3>
+<header class="header">
+  <h1>Pendataan Kependudukan RT</h1>
+</header>
+
+<form id="kkForm" class="form-card">
+  <!-- Data KK -->
+  <h2>Data KK</h2>
+  <div class="form-row">
+    <div class="form-group">
+      <label>Nomor KK</label>
+      <input type="text" name="nomor_kk" required>
+    </div>
+    <div class="form-group">
+      <label>Alamat Lengkap</label>
+      <textarea name="alamat" rows="2" required></textarea>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group">
+      <label>RT</label>
+      <input type="text" name="rt" required>
+    </div>
+    <div class="form-group">
+      <label>RW</label>
+      <input type="text" name="rw" required>
+    </div>
+    <div class="form-group">
+      <label>Nama Ketua RT</label>
+      <input type="text" name="ketua_rt" required>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group">
+      <label>Kepala Keluarga</label>
+      <input type="text" name="kepala_keluarga" required>
+    </div>
+    <div class="form-group">
+      <label>Jumlah Anggota</label>
+      <input type="number" name="jumlah_anggota" min="1">
+    </div>
+  </div>
+
+  <!-- Data Anggota Keluarga -->
+  <h2>Data Anggota Keluarga</h2>
   <div id="members"></div>
   <button type="button" class="button" onclick="addMember()">Tambah Anggota</button>
 
-  <h3>Perubahan Administrasi</h3>
+  <!-- Perubahan Administrasi -->
+  <h2>Perubahan Administrasi</h2>
   <label>Jenis Perubahan</label>
   <select name="perubahan">
     <option value="">-- Pilih --</option>
-    <option value="lahir">Lahir</option>
-    <option value="meninggal">Meninggal</option>
-    <option value="cerai">Cerai</option>
-    <option value="pindah_datang">Pindah Datang</option>
-    <option value="pindah_keluar">Pindah Keluar</option>
-    <option value="perubahan_data">Perubahan Data</option>
+    <option value="penambahan_kk">Penambahan KK</option>
+    <option value="anggota_baru">Anggota Baru (Lahir / Pindah Datang)</option>
+    <option value="pengurangan_anggota">Pengurangan Anggota (Meninggal / Pindah Keluar / Cerai)</option>
+    <option value="koreksi_data">Koreksi Data</option>
   </select>
-  <label>Catatan / Penjelasan</label>
+  <label>Catatan / Dokumen Pendukung</label>
   <textarea name="catatan" rows="3"></textarea>
 
-  <button type="submit" class="button">Simpan / Finalisasi</button>
-  <button type="button" class="button" onclick="exportExcel()">Export Excel</button>
+  <!-- Catatan & Verifikasi RT -->
+  <h2>Catatan & Verifikasi RT</h2>
+  <label>Status Validasi</label>
+  <select name="status_validasi">
+    <option value="belum_dicek">Belum Dicek</option>
+    <option value="sesuai">Sesuai</option>
+    <option value="ada_kesalahan">Ada Kesalahan</option>
+  </select>
+  <label>Catatan Verifikasi RT</label>
+  <textarea name="catatan_rt" rows="2"></textarea>
+  <label>Tanda Tangan / Inisial RT</label>
+  <input type="text" name="ttd_rt">
+
+  <!-- Actions -->
+  <div class="form-actions">
+    <button type="submit" class="button primary">Simpan / Finalisasi</button>
+    <button type="button" class="button ghost" onclick="exportExcel()">Export Excel</button>
+  </div>
 </form>
 
-<h3>Dashboard RT</h3>
+<!-- Dashboard RT -->
+<h2>Dashboard RT</h2>
 <div id="dashboard"></div>
-</div>
 
+<!-- Script ExcelJS / SheetJS -->
 <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
 <script src="script.js"></script>
+</div>
 </body>
 </html>
