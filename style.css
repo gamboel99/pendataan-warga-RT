@@ -1,396 +1,45 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulir Data KK</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        /* Variabel CSS untuk konsistensi tema */
-        :root {
-            --primary: #2563eb;
-            --primary-light: #dbeafe;
-            --primary-dark: #1e40af;
-            --secondary: #64748b;
-            --success: #10b981;
-            --danger: #ef4444;
-            --background: #f8fafc;
-            --card-bg: #ffffff;
-            --text-primary: #1e293b;
-            --text-secondary: #64748b;
-            --border: #e2e8f0;
-            --border-focus: #93c5fd;
-            --shadow: rgba(0, 0, 0, 0.08);
-            --shadow-hover: rgba(0, 0, 0, 0.12);
-            --radius: 12px;
-            --transition: all 0.3s ease;
-        }
-
-        /* Reset dan gaya dasar */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-        }
-
-        body {
-            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-            color: var(--text-primary);
-            line-height: 1.6;
-            padding: 20px;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 900px;
-            margin: 20px auto;
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-            color: var(--primary-dark);
-        }
-
-        header h1 {
-            font-size: 2.2rem;
-            margin-bottom: 10px;
-            font-weight: 700;
-        }
-
-        header p {
-            font-size: 1.1rem;
-            color: var(--text-secondary);
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        /* Container untuk setiap segmen */
-        .form-card {
-            background: var(--card-bg);
-            padding: 32px;
-            border-radius: var(--radius);
-            box-shadow: 0 10px 30px var(--shadow);
-            margin-bottom: 30px;
-            transition: var(--transition);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .form-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 5px;
-            height: 100%;
-            background: var(--primary);
-        }
-
-        .form-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px var(--shadow-hover);
-        }
-
-        /* Judul segmen */
-        .form-card h2 {
-            margin-bottom: 25px;
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: var(--primary-dark);
-            padding-bottom: 12px;
-            border-bottom: 2px solid var(--primary-light);
-            display: flex;
-            align-items: center;
-        }
-
-        .form-card h2 i {
-            margin-right: 12px;
-            color: var(--primary);
-        }
-
-        /* Form row untuk layout responsif */
-        .form-row {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 22px;
-            margin-bottom: 22px;
-        }
-
-        /* Kelompok form */
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            position: relative;
-        }
-
-        /* Label */
-        label {
-            margin-bottom: 10px;
-            font-weight: 600;
-            color: var(--text-primary);
-            font-size: 15px;
-            display: flex;
-            align-items: center;
-        }
-
-        label i {
-            margin-right: 8px;
-            width: 20px;
-            color: var(--primary);
-        }
-
-        /* Label wajib diisi */
-        label.required::after {
-            content: " *";
-            color: var(--danger);
-            margin-left: 3px;
-        }
-
-        /* Input, textarea, select */
-        input, textarea, select {
-            width: 100%;
-            padding: 14px 16px;
-            border-radius: 10px;
-            border: 1.5px solid var(--border);
-            font-size: 15px;
-            transition: var(--transition);
-            background-color: var(--card-bg);
-            color: var(--text-primary);
-        }
-
-        input:focus, textarea:focus, select:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
-            transform: translateY(-2px);
-        }
-
-        /* Placeholder styling */
-        ::placeholder {
-            color: var(--text-secondary);
-            opacity: 0.7;
-        }
-
-        /* Textarea khusus */
-        textarea {
-            resize: vertical;
-            min-height: 100px;
-            font-family: inherit;
-            line-height: 1.5;
-        }
-
-        /* Tombol */
-        .button-container {
-            display: flex;
-            justify-content: flex-end;
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        button {
-            padding: 14px 28px;
-            border-radius: 10px;
-            border: none;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .btn-submit {
-            background: var(--primary);
-            color: white;
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
-        }
-
-        .btn-submit:hover {
-            background: var(--primary-dark);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(37, 99, 235, 0.3);
-        }
-
-        .btn-reset {
-            background: #f1f5f9;
-            color: var(--text-secondary);
-        }
-
-        .btn-reset:hover {
-            background: #e2e8f0;
-            transform: translateY(-2px);
-        }
-
-        button i {
-            margin-right: 8px;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .container {
-                padding: 10px;
-            }
-            
-            .form-card {
-                padding: 25px 20px;
-                margin-bottom: 25px;
-            }
-            
-            .form-row {
-                grid-template-columns: 1fr;
-                gap: 18px;
-            }
-            
-            header h1 {
-                font-size: 1.8rem;
-            }
-            
-            header p {
-                font-size: 1rem;
-            }
-            
-            .form-card h2 {
-                font-size: 1.3rem;
-            }
-            
-            input, textarea, select {
-                padding: 12px 14px;
-            }
-            
-            .button-container {
-                flex-direction: column;
-            }
-            
-            button {
-                width: 100%;
-            }
-        }
-
-        @media (max-width: 480px) {
-            body {
-                padding: 15px;
-            }
-            
-            .form-card {
-                padding: 20px 16px;
-                border-radius: 10px;
-            }
-            
-            .form-card h2 {
-                font-size: 1.2rem;
-                margin-bottom: 20px;
-            }
-            
-            input, textarea, select {
-                padding: 11px 14px;
-                font-size: 14px;
-            }
-            
-            header h1 {
-                font-size: 1.6rem;
-            }
-        }
-
-        /* Validasi visual sederhana */
-        input:valid, textarea:valid, select:valid {
-            border-color: var(--success);
-        }
-
-        input:invalid:focus, textarea:invalid:focus, select:invalid:focus {
-            border-color: var(--danger);
-        }
-
-        /* Footer */
-        footer {
-            text-align: center;
-            margin-top: 40px;
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <header>
-            <h1><i class="fas fa-house-user"></i> Formulir Data Kartu Keluarga</h1>
-            <p>Isilah data berikut dengan lengkap dan benar sesuai dengan dokumen yang sah</p>
-        </header>
-        
-        <form id="kkForm">
-            <div class="form-card">
-                <h2><i class="fas fa-address-card"></i> Data KK</h2>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="nomor_kk" class="required"><i class="fas fa-id-card"></i> Nomor KK</label>
-                        <input type="text" id="nomor_kk" name="nomor_kk" required placeholder="Masukkan nomor KK">
-                    </div>
-                    <div class="form-group">
-                        <label for="alamat" class="required"><i class="fas fa-map-marker-alt"></i> Alamat Lengkap</label>
-                        <textarea id="alamat" name="alamat" rows="2" required placeholder="Masukkan alamat lengkap"></textarea>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="rt" class="required"><i class="fas fa-users"></i> RT</label>
-                        <input type="text" id="rt" name="rt" required placeholder="Contoh: 001">
-                    </div>
-                    <div class="form-group">
-                        <label for="rw" class="required"><i class="fas fa-users"></i> RW</label>
-                        <input type="text" id="rw" name="rw" required placeholder="Contoh: 002">
-                    </div>
-                    <div class="form-group">
-                        <label for="ketua_rt" class="required"><i class="fas fa-user-tie"></i> Nama Ketua RT</label>
-                        <input type="text" id="ketua_rt" name="ketua_rt" required placeholder="Nama lengkap ketua RT">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="kepala_keluarga" class="required"><i class="fas fa-user"></i> Kepala Keluarga</label>
-                        <input type="text" id="kepala_keluarga" name="kepala_keluarga" required placeholder="Nama kepala keluarga">
-                    </div>
-                    <div class="form-group">
-                        <label for="jumlah_anggota" class="required"><i class="fas fa-users"></i> Jumlah Anggota</label>
-                        <input type="number" id="jumlah_anggota" name="jumlah_anggota" min="1" required placeholder="Jumlah anggota keluarga">
-                    </div>
-                </div>
-                
-                <div class="button-container">
-                    <button type="reset" class="btn-reset"><i class="fas fa-redo"></i> Reset</button>
-                    <button type="submit" class="btn-submit"><i class="fas fa-paper-plane"></i> Simpan Data</button>
-                </div>
-            </div>
-        </form>
-        
-        <footer>
-            <p>© 2023 Sistem Data Keluarga | Formulir Data Kartu Keluarga</p>
-        </footer>
-    </div>
-
-    <script>
-        // Menambahkan interaksi subtle pada fokus
-        document.querySelectorAll('input, textarea, select').forEach(element => {
-            element.addEventListener('focus', function() {
-                this.parentElement.style.transform = 'translateY(-2px)';
-            });
-            
-            element.addEventListener('blur', function() {
-                this.parentElement.style.transform = 'translateY(0)';
-            });
-        });
-        
-        // Form submission handling
-        document.getElementById('kkForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert('Data berhasil disimpan!');
-            // Di sini biasanya akan ada kode untuk mengirim data ke server
-        });
-    </script>
-</body>
-</html>
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #f9f9f9;
+  color: #333;
+}
+header {
+  background: #2c3e50;
+  color: white;
+  padding: 1em;
+  text-align: center;
+}
+header nav button {
+  margin: 0 5px;
+  padding: 5px 10px;
+}
+section { display: none; padding: 1em; }
+section.active { display: block; }
+form label {
+  display: block;
+  margin: 10px 0;
+}
+form input, form textarea, form select {
+  width: 100%;
+  padding: 5px;
+  margin-top: 5px;
+}
+.form-actions {
+  margin-top: 20px;
+}
+.anggota-item {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin: 5px 0;
+  border-radius: 5px;
+  background: #fff;
+}
+footer {
+  background: #2c3e50;
+  color: white;
+  text-align: center;
+  padding: 1em;
+  margin-top: 20px;
+}

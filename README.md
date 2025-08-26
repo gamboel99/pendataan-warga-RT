@@ -1,23 +1,20 @@
+# Aplikasi Pendataan Warga RT
 
-# Pendataan Kependudukan RT
+Aplikasi sederhana untuk pendataan warga tingkat RT dengan fitur:
+- Formulir Data KK Lengkap
+- Data Anggota Keluarga Terperinci
+- Perubahan Administrasi
+- Catatan & Verifikasi RT
+- Dashboard RT
+- Draft & Finalisasi (simpan localStorage, export Excel)
 
-## Deskripsi
-Aplikasi web sederhana untuk pengisian data kependudukan tingkat RT, menandai data salah, menyimpan draft, dan export Excel Workbook.
+## Cara Menjalankan
+1. Ekstrak file zip ini.
+2. Buka `index.html` di browser modern (Chrome/Edge/Firefox).
+3. Data bisa disimpan sementara di browser (draft).
+4. Setelah finalisasi, data bisa diekspor ke Excel.
 
-## Cara Deploy
-1. Buat repository baru di GitHub.
-2. Upload seluruh file (index.html, style.css, script.js, README.md).
-3. Deploy ke Vercel:
-   - Masuk ke [Vercel](https://vercel.com)
-   - Pilih 'New Project' > Import GitHub Repo
-   - Deploy default sebagai static site
-
-## Cara Menggunakan
-1. Buka halaman index.html (via Vercel atau localhost).
-2. Isi Data KK & Anggota Keluarga.
-3. Klik "Simpan / Finalisasi" untuk menyimpan draft.
-4. Dashboard menampilkan semua data, menandai anggota dengan data salah.
-5. Klik "Export Excel" untuk mendownload workbook .xlsx (sheet per KK).
-
-## Catatan
-- Draft disimpan di browser (LocalStorage), bisa di-update sebelum finalisasi.
+## Teknologi
+- HTML, CSS, JavaScript murni
+- localStorage untuk draft
+- SheetJS (XLSX) untuk export Excel

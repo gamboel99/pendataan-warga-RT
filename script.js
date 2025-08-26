@@ -1,179 +1,107 @@
-let memberCount = 0;
-let dataDraft = JSON.parse(localStorage.getItem('draftData')) || [];
+let anggotaCounter = 0;
 
-// Fungsi tambah anggota keluarga
-function addMember() {
-  memberCount++;
+function showSection(id) {
+  document.querySelectorAll('main section').forEach(sec => sec.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function tambahAnggota(data={}) {
+  anggotaCounter++;
+  const container = document.getElementById('anggotaList');
   const div = document.createElement('div');
-  div.className = 'member';
+  div.className = 'anggota-item';
   div.innerHTML = `
-    <button type="button" class="remove-member" onclick="this.parentNode.remove()">X</button>
-    <div class="form-group">
-      <label>Nama Lengkap</label>
-      <input type="text" name="nama_${memberCount}" required>
-    </div>
-    <div class="form-group">
-      <label>NIK</label>
-      <input type="text" name="nik_${memberCount}" maxlength="16" required>
-    </div>
-    <div class="form-group">
-      <label>Nomor Akta Kelahiran</label>
-      <input type="text" name="akta_${memberCount}">
-    </div>
-    <div class="form-group">
-      <label>Jenis Kelamin</label>
-      <select name="jk_${memberCount}">
-        <option value="L">Laki-laki</option>
-        <option value="P">Perempuan</option>
+    <label>Nama <input type="text" name="nama_${anggotaCounter}" required value="${data.nama||''}"></label>
+    <label>NIK <input type="text" name="nik_${anggotaCounter}" required value="${data.nik||''}"></label>
+    <label>Jenis Kelamin
+      <select name="jk_${anggotaCounter}">
+        <option value="Laki-laki">Laki-laki</option>
+        <option value="Perempuan">Perempuan</option>
       </select>
-    </div>
-    <div class="form-group">
-      <label>TTL</label>
-      <input type="text" name="ttl_${memberCount}">
-    </div>
-    <div class="form-group">
-      <label>Hubungan dengan Kepala Keluarga</label>
-      <input type="text" name="hubungan_${memberCount}">
-    </div>
-    <div class="form-group">
-      <label>Status Perkawinan</label>
-      <select name="status_kawin_${memberCount}">
-        <option value="belum_kawin">Belum Kawin</option>
-        <option value="kawin">Kawin</option>
-        <option value="cerai">Cerai</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label>Pendidikan Terakhir</label>
-      <input type="text" name="pendidikan_${memberCount}">
-    </div>
-    <div class="form-group">
-      <label>Pekerjaan</label>
-      <input type="text" name="pekerjaan_${memberCount}">
-    </div>
-    <div class="form-group">
-      <label>Nomor Buku Nikah</label>
-      <input type="text" name="buku_nikah_${memberCount}">
-    </div>
-    <div class="form-group">
-      <label>Nomor Ijazah</label>
-      <input type="text" name="ijazah_${memberCount}">
-    </div>
-    <div class="form-group">
-      <label>Catatan Ketidaksesuaian Data</label>
-      <textarea name="ketidaksesuaian_${memberCount}" rows="2"></textarea>
-    </div>
-    <div class="form-group">
-      <label>Data Salah? ⚠️</label>
-      <input type="checkbox" name="flag_${memberCount}">
-    </div>
+    </label>
+    <label>Tempat, Tanggal Lahir <input type="text" name="ttl_${anggotaCounter}" value="${data.ttl||''}"></label>
+    <label>Hubungan dengan KK <input type="text" name="hub_${anggotaCounter}" value="${data.hub||''}"></label>
+    <label>Status Kawin <input type="text" name="kawin_${anggotaCounter}" value="${data.kawin||''}"></label>
+    <label>Pendidikan <input type="text" name="pendidikan_${anggotaCounter}" value="${data.pendidikan||''}"></label>
+    <label>Pekerjaan <input type="text" name="pekerjaan_${anggotaCounter}" value="${data.pekerjaan||''}"></label>
+    <button type="button" onclick="this.parentElement.remove()">Hapus Anggota</button>
   `;
-  document.getElementById('members').appendChild(div);
+  container.appendChild(div);
 }
 
-// Simpan draft ke LocalStorage
-function saveDraft() {
+function simpanDraft() {
   const form = document.getElementById('kkForm');
-  const formData = new FormData(form);
-  let members = [];
-  for (let i = 1; i <= memberCount; i++) {
-    if (formData.get('nama_' + i)) {
-      members.push({
-        nama: formData.get('nama_' + i),
-        nik: formData.get('nik_' + i),
-        akta: formData.get('akta_' + i),
-        jk: formData.get('jk_' + i),
-        ttl: formData.get('ttl_' + i),
-        hubungan: formData.get('hubungan_' + i),
-        status_kawin: formData.get('status_kawin_' + i),
-        pendidikan: formData.get('pendidikan_' + i),
-        pekerjaan: formData.get('pekerjaan_' + i),
-        buku_nikah: formData.get('buku_nikah_' + i),
-        ijazah: formData.get('ijazah_' + i),
-        ketidaksesuaian: formData.get('ketidaksesuaian_' + i),
-        flag: formData.get('flag_' + i) ? true : false
-      });
-    }
-  }
-
-  const data = {
-    nomor_kk: formData.get('nomor_kk'),
-    alamat: formData.get('alamat'),
-    rt: formData.get('rt'),
-    rw: formData.get('rw'),
-    ketua_rt: formData.get('ketua_rt'),
-    kepala_keluarga: formData.get('kepala_keluarga'),
-    jumlah_anggota: formData.get('jumlah_anggota'),
-    perubahan: formData.get('perubahan'),
-    catatan: formData.get('catatan'),
-    status_validasi: formData.get('status_validasi'),
-    catatan_rt: formData.get('catatan_rt'),
-    ttd_rt: formData.get('ttd_rt'),
-    members: members
-  };
-  dataDraft.push(data);
-  localStorage.setItem('draftData', JSON.stringify(dataDraft));
-  renderDashboard();
-}
-
-// Validasi form dasar
-document.getElementById('kkForm').addEventListener('submit', function(e) {
-  e.preventDefault();
-  const form = document.getElementById('kkForm');
-  const formData = new FormData(form);
-  for (let i = 1; i <= memberCount; i++) {
-    const nik = formData.get('nik_' + i);
-    if (nik && nik.length !== 16) {
-      alert(`NIK anggota ke-${i} harus 16 digit`);
-      return;
-    }
-  }
-  saveDraft();
-  alert('Data disimpan di draft!');
-});
-
-// Render dashboard
-function renderDashboard() {
-  const dash = document.getElementById('dashboard');
-  if (dataDraft.length === 0) {
-    dash.innerHTML = '<p>Belum ada data</p>';
-    return;
-  }
-  let html = '<table><tr><th>Nomor KK</th><th>Kepala Keluarga</th><th>RT</th><th>RW</th><th>Ketua RT</th><th>Jumlah Anggota</th><th>Anggota Bermasalah ⚠️</th></tr>';
-  dataDraft.forEach(d => {
-    const flagCount = d.members.filter(m => m.flag).length;
-    html += `<tr>
-      <td>${d.nomor_kk}</td>
-      <td>${d.kepala_keluarga}</td>
-      <td>${d.rt}</td>
-      <td>${d.rw}</td>
-      <td>${d.ketua_rt}</td>
-      <td>${d.members.length}</td>
-      <td style="color:red;font-weight:600">${flagCount > 0 ? '⚠️ '+flagCount : ''}</td>
-    </tr>`;
-  });
-  html += '</table>';
-  dash.innerHTML = html;
-}
-
-// Export Excel per KK
-function exportExcel() {
-  if (dataDraft.length === 0) { alert('Tidak ada data untuk export'); return; }
-  const wb = XLSX.utils.book_new();
-  dataDraft.forEach((d, i) => {
-    const ws_data = [];
-    ws_data.push(['Nomor KK','Alamat','RT','RW','Ketua RT','Kepala Keluarga','Jumlah Anggota','Perubahan','Catatan','Status Validasi','Catatan RT','TTD RT']);
-    ws_data.push([d.nomor_kk,d.alamat,d.rt,d.rw,d.ketua_rt,d.kepala_keluarga,d.members.length,d.perubahan,d.catatan,d.status_validasi,d.catatan_rt,d.ttd_rt]);
-    ws_data.push([]);
-    ws_data.push(['Nama','NIK','Akta','JK','TTL','Hubungan','Status Kawin','Pendidikan','Pekerjaan','Buku Nikah','Ijazah','Ketidaksesuaian','Flag']);
-    d.members.forEach(m => {
-      ws_data.push([m.nama,m.nik,m.akta,m.jk,m.ttl,m.hubungan,m.status_kawin,m.pendidikan,m.pekerjaan,m.buku_nikah,m.ijazah,m.ketidaksesuaian,m.flag ? '⚠️' : '']);
+  const data = new FormData(form);
+  const anggotaNodes = document.querySelectorAll('.anggota-item');
+  const anggotaData = [];
+  anggotaNodes.forEach((node,i) => {
+    anggotaData.push({
+      nama: node.querySelector(`[name^=nama_]`).value,
+      nik: node.querySelector(`[name^=nik_]`).value,
+      jk: node.querySelector(`[name^=jk_]`).value,
+      ttl: node.querySelector(`[name^=ttl_]`).value,
+      hub: node.querySelector(`[name^=hub_]`).value,
+      kawin: node.querySelector(`[name^=kawin_]`).value,
+      pendidikan: node.querySelector(`[name^=pendidikan_]`).value,
+      pekerjaan: node.querySelector(`[name^=pekerjaan_]`).value
     });
-    const ws = XLSX.utils.aoa_to_sheet(ws_data);
-    XLSX.utils.book_append_sheet(wb, ws, `KK_${i+1}`);
   });
-  XLSX.writeFile(wb, 'Pendataan_RT.xlsx');
+  const payload = {
+    nomorKK: data.get('nomorKK'),
+    kepalaKeluarga: data.get('kepalaKeluarga'),
+    alamat: data.get('alamat'),
+    rt: data.get('rt'),
+    rw: data.get('rw'),
+    namaKetuaRT: data.get('namaKetuaRT'),
+    tanggalPembuatanKK: data.get('tanggalPembuatanKK'),
+    statusKK: data.get('statusKK'),
+    anggota: anggotaData
+  };
+  localStorage.setItem('draftRT', JSON.stringify(payload));
+  alert('Draft tersimpan di browser.');
 }
 
-// Render dashboard awal
-renderDashboard();
+function hapusDraft() {
+  if(confirm('Hapus draft?')){
+    localStorage.removeItem('draftRT');
+    alert('Draft dihapus');
+  }
+}
+
+function exportExcel() {
+  const raw = localStorage.getItem('draftRT');
+  if(!raw) { alert('Belum ada data tersimpan'); return; }
+  const data = JSON.parse(raw);
+
+  const wb = XLSX.utils.book_new();
+  const wsData = [["Nomor KK","Kepala Keluarga","Alamat","RT","RW","Nama Ketua RT","Tanggal Pembuatan","Status KK"]];
+  wsData.push([data.nomorKK,data.kepalaKeluarga,data.alamat,data.rt,data.rw,data.namaKetuaRT,data.tanggalPembuatanKK,data.statusKK]);
+  const ws = XLSX.utils.aoa_to_sheet(wsData);
+  XLSX.utils.book_append_sheet(wb, ws, "KK");
+
+  const wsAnggota = [["Nama","NIK","JK","TTL","Hubungan","Status Kawin","Pendidikan","Pekerjaan"]];
+  data.anggota.forEach(a => wsAnggota.push([a.nama,a.nik,a.jk,a.ttl,a.hub,a.kawin,a.pendidikan,a.pekerjaan]));
+  const ws2 = XLSX.utils.aoa_to_sheet(wsAnggota);
+  XLSX.utils.book_append_sheet(wb, ws2, "Anggota");
+
+  XLSX.writeFile(wb, `KK_${data.nomorKK||'data'}.xlsx`);
+  alert('Data diexport ke Excel.');
+}
+
+window.onload = () => {
+  const raw = localStorage.getItem('draftRT');
+  if(raw){
+    const data = JSON.parse(raw);
+    document.querySelector('[name=nomorKK]').value = data.nomorKK||'';
+    document.querySelector('[name=kepalaKeluarga]').value = data.kepalaKeluarga||'';
+    document.querySelector('[name=alamat]').value = data.alamat||'';
+    document.querySelector('[name=rt]').value = data.rt||'';
+    document.querySelector('[name=rw]').value = data.rw||'';
+    document.querySelector('[name=namaKetuaRT]').value = data.namaKetuaRT||'';
+    document.querySelector('[name=tanggalPembuatanKK]').value = data.tanggalPembuatanKK||'';
+    document.querySelector('[name=statusKK]').value = data.statusKK||'';
+    if(data.anggota){
+      data.anggota.forEach(a=>tambahAnggota(a));
+    }
+  }
+};
