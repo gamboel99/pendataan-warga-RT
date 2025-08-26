@@ -1,79 +1,42 @@
-/* Import font modern */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
-
-body {
-  font-family: 'Inter', sans-serif;
-  background: #f4f6fa;
-  margin: 0;
-  padding: 0;
-  color: #081421;
-}
-
-.container {
-  max-width: 1000px;
-  margin: 20px auto;
-  padding: 10px;
-}
-
-/* Header */
-.header {
-  background: linear-gradient(90deg, #03204a, #0b63d6);
-  color: #fff;
-  padding: 20px 16px;
-  border-radius: 12px;
-  margin-bottom: 25px;
-  text-align: center;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-}
-
-.header h1 {
-  margin: 0;
-  font-size: 24px;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-}
-
-/* Segmen Form Card */
+/* Container untuk setiap segmen */
 .form-card {
   background: #fff;
   padding: 25px 20px;
   border-radius: 14px;
-  box-shadow: 0 8px 25px rgba(0,0,0,0.08);
-  margin-bottom: 30px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+  margin-bottom: 25px;
 }
 
-/* Headings */
-h2 {
-  margin: 16px 0 12px;
+/* Judul segmen */
+.form-card h2 {
+  margin-bottom: 16px;
   font-size: 18px;
   color: #03204a;
   border-bottom: 1px solid #e0e7ff;
   padding-bottom: 6px;
 }
 
-/* Form layout */
+/* Form row untuk dua kolom desktop */
 .form-row {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 16px;
   margin-bottom: 16px;
 }
 
-.form-group {
-  flex: 1;
-  min-width: 200px;
-  display: flex;
-  flex-direction: column;
+/* Label wajib diisi */
+label.required::after {
+  content: " *";
+  color: red;
 }
 
+/* Input seragam */
 input, textarea, select {
+  width: 100%;
   padding: 10px;
   border-radius: 8px;
   border: 1px solid #cbd5e1;
   font-size: 14px;
-  outline: none;
-  width: 100%;
-  transition: 0.2s;
 }
 
 input:focus, textarea:focus, select:focus {
@@ -81,93 +44,47 @@ input:focus, textarea:focus, select:focus {
   box-shadow: 0 0 0 2px rgba(11,99,214,0.2);
 }
 
-/* Buttons */
-.button {
-  padding: 10px 18px;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  margin-top: 10px;
-  font-weight: 600;
-  font-size: 14px;
-  transition: 0.3s;
-}
-
-.button.primary {
-  background: linear-gradient(90deg,#0b63d6,#3aa0ff);
-  color: #fff;
-}
-
-.button.primary:hover {
-  filter: brightness(1.1);
-}
-
-.button.ghost {
-  background: #eef6f2;
-  color: #0b1733;
-  border: 1px solid #dff0e9;
-}
-
-.button.ghost:hover {
-  background: #e0f0eb;
-}
-
-/* Anggota Keluarga */
-#members .member {
-  border: 1px solid #dfeafc;
-  padding: 16px;
-  border-radius: 10px;
-  margin-bottom: 16px;
-  position: relative;
-  background: #f7fbff;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 12px;
-}
-
-#members .member:hover {
-  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-}
-
-.remove-member {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: #ff4d4f;
-  color: #fff;
-  padding: 3px 8px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.member-flag {
-  background: #ffe5e5;
-}
-
-/* Dashboard */
-#dashboard table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 16px;
-  font-size: 13px;
-}
-
-#dashboard th, #dashboard td {
-  border: 1px solid #ccc;
-  padding: 8px;
-  text-align: center;
-}
-
-#dashboard th {
-  background: #f0f4ff;
-  font-weight: 600;
-}
-
 /* Responsive */
 @media(max-width:768px){
-  .form-row, #members .member {
-    flex-direction: column;
+  .form-row {
     grid-template-columns: 1fr;
   }
 }
+
+<div class="form-card">
+  <h2>Data KK</h2>
+  <div class="form-row">
+    <div class="form-group">
+      <label class="required">Nomor KK</label>
+      <input type="text" name="nomor_kk" required>
+    </div>
+    <div class="form-group">
+      <label class="required">Alamat Lengkap</label>
+      <textarea name="alamat" rows="2" required></textarea>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group">
+      <label class="required">RT</label>
+      <input type="text" name="rt" required>
+    </div>
+    <div class="form-group">
+      <label class="required">RW</label>
+      <input type="text" name="rw" required>
+    </div>
+    <div class="form-group">
+      <label class="required">Nama Ketua RT</label>
+      <input type="text" name="ketua_rt" required>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group">
+      <label class="required">Kepala Keluarga</label>
+      <input type="text" name="kepala_keluarga" required>
+    </div>
+    <div class="form-group">
+      <label class="required">Jumlah Anggota</label>
+      <input type="number" name="jumlah_anggota" min="1" required>
+    </div>
+  </div>
+</div>
