@@ -8,33 +8,70 @@ function addMember() {
   div.className = 'member';
   div.innerHTML = `
     <button type="button" class="remove-member" onclick="this.parentNode.remove()">X</button>
-    <label>Nama Lengkap</label><input type="text" name="nama_${memberCount}" required>
-    <label>NIK</label><input type="text" name="nik_${memberCount}" maxlength="16">
-    <label>Nomor Akta Kelahiran</label><input type="text" name="akta_${memberCount}">
-    <label>Jenis Kelamin</label>
-    <select name="jk_${memberCount}">
-      <option value="L">Laki-laki</option>
-      <option value="P">Perempuan</option>
-    </select>
-    <label>TTL</label><input type="text" name="ttl_${memberCount}">
-    <label>Hubungan dengan Kepala Keluarga</label><input type="text" name="hubungan_${memberCount}">
-    <label>Status Perkawinan</label>
-    <select name="status_kawin_${memberCount}">
-      <option value="belum_kawin">Belum Kawin</option>
-      <option value="kawin">Kawin</option>
-      <option value="cerai">Cerai</option>
-    </select>
-    <label>Pendidikan Terakhir</label><input type="text" name="pendidikan_${memberCount}">
-    <label>Pekerjaan</label><input type="text" name="pekerjaan_${memberCount}">
-    <label>Nomor Buku Nikah</label><input type="text" name="buku_nikah_${memberCount}">
-    <label>Nomor Ijazah</label><input type="text" name="ijazah_${memberCount}">
-    <label>Catatan Ketidaksesuaian Data</label><textarea name="ketidaksesuaian_${memberCount}" rows="2"></textarea>
-    <label>Data Salah? ⚠️</label><input type="checkbox" name="flag_${memberCount}">
+    <div class="form-group">
+      <label>Nama Lengkap</label>
+      <input type="text" name="nama_${memberCount}" required>
+    </div>
+    <div class="form-group">
+      <label>NIK</label>
+      <input type="text" name="nik_${memberCount}" maxlength="16" required>
+    </div>
+    <div class="form-group">
+      <label>Nomor Akta Kelahiran</label>
+      <input type="text" name="akta_${memberCount}">
+    </div>
+    <div class="form-group">
+      <label>Jenis Kelamin</label>
+      <select name="jk_${memberCount}">
+        <option value="L">Laki-laki</option>
+        <option value="P">Perempuan</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>TTL</label>
+      <input type="text" name="ttl_${memberCount}">
+    </div>
+    <div class="form-group">
+      <label>Hubungan dengan Kepala Keluarga</label>
+      <input type="text" name="hubungan_${memberCount}">
+    </div>
+    <div class="form-group">
+      <label>Status Perkawinan</label>
+      <select name="status_kawin_${memberCount}">
+        <option value="belum_kawin">Belum Kawin</option>
+        <option value="kawin">Kawin</option>
+        <option value="cerai">Cerai</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Pendidikan Terakhir</label>
+      <input type="text" name="pendidikan_${memberCount}">
+    </div>
+    <div class="form-group">
+      <label>Pekerjaan</label>
+      <input type="text" name="pekerjaan_${memberCount}">
+    </div>
+    <div class="form-group">
+      <label>Nomor Buku Nikah</label>
+      <input type="text" name="buku_nikah_${memberCount}">
+    </div>
+    <div class="form-group">
+      <label>Nomor Ijazah</label>
+      <input type="text" name="ijazah_${memberCount}">
+    </div>
+    <div class="form-group">
+      <label>Catatan Ketidaksesuaian Data</label>
+      <textarea name="ketidaksesuaian_${memberCount}" rows="2"></textarea>
+    </div>
+    <div class="form-group">
+      <label>Data Salah? ⚠️</label>
+      <input type="checkbox" name="flag_${memberCount}">
+    </div>
   `;
   document.getElementById('members').appendChild(div);
 }
 
-// Fungsi simpan draft ke LocalStorage
+// Simpan draft ke LocalStorage
 function saveDraft() {
   const form = document.getElementById('kkForm');
   const formData = new FormData(form);
@@ -58,6 +95,7 @@ function saveDraft() {
       });
     }
   }
+
   const data = {
     nomor_kk: formData.get('nomor_kk'),
     alamat: formData.get('alamat'),
@@ -78,9 +116,18 @@ function saveDraft() {
   renderDashboard();
 }
 
-// Submit form
+// Validasi form dasar
 document.getElementById('kkForm').addEventListener('submit', function(e) {
   e.preventDefault();
+  const form = document.getElementById('kkForm');
+  const formData = new FormData(form);
+  for (let i = 1; i <= memberCount; i++) {
+    const nik = formData.get('nik_' + i);
+    if (nik && nik.length !== 16) {
+      alert(`NIK anggota ke-${i} harus 16 digit`);
+      return;
+    }
+  }
   saveDraft();
   alert('Data disimpan di draft!');
 });
@@ -92,8 +139,9 @@ function renderDashboard() {
     dash.innerHTML = '<p>Belum ada data</p>';
     return;
   }
-  let html = '<table><tr><th>Nomor KK</th><th>Kepala Keluarga</th><th>RT</th><th>RW</th><th>Ketua RT</th><th>Jumlah Anggota</th></tr>';
+  let html = '<table><tr><th>Nomor KK</th><th>Kepala Keluarga</th><th>RT</th><th>RW</th><th>Ketua RT</th><th>Jumlah Anggota</th><th>Anggota Bermasalah ⚠️</th></tr>';
   dataDraft.forEach(d => {
+    const flagCount = d.members.filter(m => m.flag).length;
     html += `<tr>
       <td>${d.nomor_kk}</td>
       <td>${d.kepala_keluarga}</td>
@@ -101,6 +149,7 @@ function renderDashboard() {
       <td>${d.rw}</td>
       <td>${d.ketua_rt}</td>
       <td>${d.members.length}</td>
+      <td style="color:red;font-weight:600">${flagCount > 0 ? '⚠️ '+flagCount : ''}</td>
     </tr>`;
   });
   html += '</table>';
