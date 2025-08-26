@@ -1,58 +1,84 @@
-let anggotaCounter = 0;
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("umkmForm");
+  const saveDraftBtn = document.getElementById("saveDraft");
+  const saveFinalBtn = document.getElementById("saveFinal");
+  const tableBody = document.querySelector("#dataTable tbody");
+  const exportBtn = document.getElementById("exportExcel");
 
-function showSection(id) {
-  document.querySelectorAll('main section').forEach(sec => sec.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-}
+  // Load draft jika ada
+  loadDraft();
+  loadFinalData();
 
-function tambahAnggota(data={}) {
-  anggotaCounter++;
-  const container = document.getElementById('anggotaList');
-  const div = document.createElement('div');
-  div.className = 'anggota-item';
-  div.innerHTML = `
-    <h4>Anggota ${anggotaCounter}</h4>
-    <label>Nama Lengkap <input type="text" name="nama_${anggotaCounter}" required></label>
-    <label>NIK <input type="text" name="nik_${anggotaCounter}" required></label>
-    <label>No. Akta Kelahiran <input type="text" name="akta_${anggotaCounter}"></label>
-    <label>Jenis Kelamin
-      <select name="jk_${anggotaCounter}">
-        <option value="">-Pilih-</option>
-        <option value="L">Laki-laki</option>
-        <option value="P">Perempuan</option>
-      </select>
-    </label>
-    <label>Tempat Lahir <input type="text" name="tempat_${anggotaCounter}"></label>
-    <label>Tanggal Lahir <input type="date" name="tgl_${anggotaCounter}"></label>
-    <label>Hubungan dengan Kepala Keluarga <input type="text" name="hubungan_${anggotaCounter}"></label>
-    <label>Status Perkawinan <input type="text" name="statusNikah_${anggotaCounter}"></label>
-    <label>Pendidikan Terakhir <input type="text" name="pendidikan_${anggotaCounter}"></label>
-    <label>Pekerjaan <input type="text" name="pekerjaan_${anggotaCounter}"></label>
-    <label>No. Buku Nikah <input type="text" name="bukuNikah_${anggotaCounter}"></label>
-    <label>No. Ijazah <input type="text" name="ijazah_${anggotaCounter}"></label>
-    <label>Catatan Ketidaksesuaian <textarea name="catatan_${anggotaCounter}"></textarea></label>
-    <label><input type="checkbox" name="salah_${anggotaCounter}"> Data Salah ⚠️</label>
-  `;
-  container.appendChild(div);
-}
+  saveDraftBtn.addEventListener("click", () => {
+    const draftData = getFormData();
+    localStorage.setItem("umkmDraft", JSON.stringify(draftData));
+    alert("Draft berhasil disimpan!");
+  });
 
-function simpanDraft(){
-  localStorage.setItem('draftKK', document.getElementById('kkForm').innerHTML);
-  alert('Draft tersimpan di browser');
-}
+  saveFinalBtn.addEventListener("click", () => {
+    const formData = getFormData();
 
-function hapusDraft(){
-  localStorage.removeItem('draftKK');
-  alert('Draft dihapus');
-}
+    // Hapus draft setelah final
+    localStorage.removeItem("umkmDraft");
 
-function exportExcel(){
-  alert('Export Excel belum diimplementasikan penuh di contoh ini.');
-}
+    // Simpan ke final data
+    let data = JSON.parse(localStorage.getItem("umkmData")) || [];
+    data.push(formData);
+    localStorage.setItem("umkmData", JSON.stringify(data));
 
-window.onload = function(){
-  const draft = localStorage.getItem('draftKK');
-  if(draft){
-    document.getElementById('kkForm').innerHTML = draft;
+    addRowToTable(formData);
+    form.reset();
+    alert("Data berhasil disimpan final!");
+  });
+
+  exportBtn.addEventListener("click", () => {
+    let data = JSON.parse(localStorage.getItem("umkmData")) || [];
+    if (data.length === 0) {
+      alert("Belum ada data final untuk diexport!");
+      return;
+    }
+
+    const worksheet = XLSX.utils.json_to_sheet(data);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "UMKM");
+    XLSX.writeFile(workbook, "data_umkm.xlsx");
+  });
+
+  function getFormData() {
+    return {
+      nama: document.getElementById("nama").value,
+      usaha: document.getElementById("usaha").value,
+      sektor: document.getElementById("sektor").value,
+      alamat: document.getElementById("alamat").value,
+      hp: document.getElementById("hp").value
+    };
   }
-}
+
+  function loadDraft() {
+    const draft = JSON.parse(localStorage.getItem("umkmDraft"));
+    if (draft) {
+      document.getElementById("nama").value = draft.nama;
+      document.getElementById("usaha").value = draft.usaha;
+      document.getElementById("sektor").value = draft.sektor;
+      document.getElementById("alamat").value = draft.alamat;
+      document.getElementById("hp").value = draft.hp;
+    }
+  }
+
+  function loadFinalData() {
+    let data = JSON.parse(localStorage.getItem("umkmData")) || [];
+    data.forEach(item => addRowToTable(item));
+  }
+
+  function addRowToTable(item) {
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td>${item.nama}</td>
+      <td>${item.usaha}</td>
+      <td>${item.sektor}</td>
+      <td>${item.alamat}</td>
+      <td>${item.hp}</td>
+    `;
+    tableBody.appendChild(row);
+  }
+});

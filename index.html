@@ -2,74 +2,52 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Pendataan Warga RT</title>
-  <link rel="stylesheet" href="style.css"/>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Form Pendataan UMKM Desa</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header>
-    <h1>Aplikasi Pendataan Warga RT</h1>
-    <nav>
-      <button onclick="showSection('beranda')">Beranda</button>
-      <button onclick="showSection('formulir')">Formulir</button>
-      <button onclick="showSection('dashboard')">Dashboard</button>
-    </nav>
-  </header>
+  <div class="container">
+    <h1>Form Pendataan UMKM Desa</h1>
+    <form id="umkmForm">
+      <label>Nama Pemilik:</label>
+      <input type="text" id="nama" required />
 
-  <main class="container">
-    <section id="beranda" class="active">
-      <h2>Petunjuk Pengisian</h2>
-      <p>Isi formulir dengan data sesuai dokumen resmi. Jika ada ketidaksesuaian, beri tanda ⚠️.</p>
-      <h3>Manfaat</h3>
-      <ul>
-        <li>Deteksi dini kesalahan administrasi kependudukan</li>
-        <li>Memudahkan pelayanan RT/RW dan desa</li>
-        <li>Data rapi setiap bulan</li>
-      </ul>
-    </section>
+      <label>Nama Usaha:</label>
+      <input type="text" id="usaha" required />
 
-    <section id="formulir">
-      <h2>Formulir Data KK</h2>
-      <form id="kkForm">
-        <label>Nomor KK <input type="text" name="nomorKK" required></label>
-        <label>Nama Kepala Keluarga <input type="text" name="kepalaKeluarga" required></label>
-        <label>Alamat Lengkap (Jalan, Desa, Kecamatan, Kabupaten, Provinsi) <textarea name="alamat" required></textarea></label>
-        <label>RT <input type="number" name="rt" required></label>
-        <label>RW <input type="number" name="rw" required></label>
-        <label>Nama Ketua RT <input type="text" name="namaKetuaRT" required></label>
-        <label>Jumlah Anggota KK <input type="number" name="jumlahAnggota" readonly></label>
-        <label>Tanggal Pembuatan KK <input type="date" name="tanggalPembuatanKK" required></label>
-        <label>Status KK
-          <select name="statusKK">
-            <option value="Baru">Baru</option>
-            <option value="Update">Update</option>
-            <option value="Koreksi">Koreksi</option>
-          </select>
-        </label>
+      <label>Sektor Usaha:</label>
+      <input type="text" id="sektor" required />
 
-        <h3>Data Anggota Keluarga</h3>
-        <div id="anggotaList"></div>
-        <button type="button" onclick="tambahAnggota()">+ Tambah Anggota</button>
+      <label>Alamat:</label>
+      <textarea id="alamat" required></textarea>
 
-        <div class="form-actions">
-          <button type="button" onclick="simpanDraft()">💾 Simpan Draft</button>
-          <button type="button" onclick="hapusDraft()">🗑️ Hapus Draft</button>
-          <button type="button" onclick="exportExcel()">⬇️ Export Excel</button>
-        </div>
-      </form>
-    </section>
+      <label>No. HP:</label>
+      <input type="text" id="hp" required />
 
-    <section id="dashboard">
-      <h2>Dashboard RT</h2>
-      <div id="ringkasan"></div>
-    </section>
-  </main>
+      <div class="buttons">
+        <button type="button" id="saveDraft">Save Draft</button>
+        <button type="button" id="saveFinal">Save Final</button>
+      </div>
+    </form>
 
-  <footer>
-    <p>&copy; 2025 Aplikasi RT</p>
-  </footer>
+    <h2>Data UMKM Tersimpan</h2>
+    <table id="dataTable">
+      <thead>
+        <tr>
+          <th>Nama Pemilik</th>
+          <th>Nama Usaha</th>
+          <th>Sektor</th>
+          <th>Alamat</th>
+          <th>No. HP</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <button id="exportExcel">Export ke Excel</button>
+  </div>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
