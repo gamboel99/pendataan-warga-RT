@@ -3,97 +3,125 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Formulir Pendataan Kependudukan RT</title>
+<title>Form Pendataan Warga RT</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <div class="container">
 
+<!-- HEADER -->
 <header class="header">
-  <h1>Pendataan Kependudukan RT</h1>
+  <h1>Form Pendataan Warga RT</h1>
 </header>
 
-<form id="kkForm" class="form-card">
-  <!-- Data KK -->
-  <h2>Data KK</h2>
-  <div class="form-row">
-    <div class="form-group">
-      <label>Nomor KK</label>
-      <input type="text" name="nomor_kk" required>
+<form id="kkForm">
+
+  <!-- SEGMENT DATA KK -->
+  <div class="form-card">
+    <h2>Data KK</h2>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Nomor KK</label>
+        <input type="text" name="nomor_kk" required>
+      </div>
+      <div class="form-group">
+        <label>Alamat Lengkap</label>
+        <textarea name="alamat" rows="2" required></textarea>
+      </div>
     </div>
-    <div class="form-group">
-      <label>Alamat Lengkap</label>
-      <textarea name="alamat" rows="2" required></textarea>
+    <div class="form-row">
+      <div class="form-group">
+        <label>RT</label>
+        <input type="text" name="rt" required>
+      </div>
+      <div class="form-group">
+        <label>RW</label>
+        <input type="text" name="rw" required>
+      </div>
+      <div class="form-group">
+        <label>Nama Ketua RT</label>
+        <input type="text" name="ketua_rt" required>
+      </div>
     </div>
-  </div>
-  <div class="form-row">
-    <div class="form-group">
-      <label>RT</label>
-      <input type="text" name="rt" required>
-    </div>
-    <div class="form-group">
-      <label>RW</label>
-      <input type="text" name="rw" required>
-    </div>
-    <div class="form-group">
-      <label>Nama Ketua RT</label>
-      <input type="text" name="ketua_rt" required>
-    </div>
-  </div>
-  <div class="form-row">
-    <div class="form-group">
-      <label>Kepala Keluarga</label>
-      <input type="text" name="kepala_keluarga" required>
-    </div>
-    <div class="form-group">
-      <label>Jumlah Anggota</label>
-      <input type="number" name="jumlah_anggota" min="1">
+    <div class="form-row">
+      <div class="form-group">
+        <label>Kepala Keluarga</label>
+        <input type="text" name="kepala_keluarga" required>
+      </div>
+      <div class="form-group">
+        <label>Jumlah Anggota</label>
+        <input type="number" name="jumlah_anggota" min="1">
+      </div>
     </div>
   </div>
 
-  <!-- Data Anggota Keluarga -->
-  <h2>Data Anggota Keluarga</h2>
-  <div id="members"></div>
-  <button type="button" class="button" onclick="addMember()">Tambah Anggota</button>
-
-  <!-- Perubahan Administrasi -->
-  <h2>Perubahan Administrasi</h2>
-  <label>Jenis Perubahan</label>
-  <select name="perubahan">
-    <option value="">-- Pilih --</option>
-    <option value="penambahan_kk">Penambahan KK</option>
-    <option value="anggota_baru">Anggota Baru (Lahir / Pindah Datang)</option>
-    <option value="pengurangan_anggota">Pengurangan Anggota (Meninggal / Pindah Keluar / Cerai)</option>
-    <option value="koreksi_data">Koreksi Data</option>
-  </select>
-  <label>Catatan / Dokumen Pendukung</label>
-  <textarea name="catatan" rows="3"></textarea>
-
-  <!-- Catatan & Verifikasi RT -->
-  <h2>Catatan & Verifikasi RT</h2>
-  <label>Status Validasi</label>
-  <select name="status_validasi">
-    <option value="belum_dicek">Belum Dicek</option>
-    <option value="sesuai">Sesuai</option>
-    <option value="ada_kesalahan">Ada Kesalahan</option>
-  </select>
-  <label>Catatan Verifikasi RT</label>
-  <textarea name="catatan_rt" rows="2"></textarea>
-  <label>Tanda Tangan / Inisial RT</label>
-  <input type="text" name="ttd_rt">
-
-  <!-- Actions -->
-  <div class="form-actions">
-    <button type="submit" class="button primary">Simpan / Finalisasi</button>
-    <button type="button" class="button ghost" onclick="exportExcel()">Export Excel</button>
+  <!-- SEGMENT DATA ANGGOTA -->
+  <div class="form-card">
+    <h2>Data Anggota Keluarga</h2>
+    <div id="members"></div>
+    <button type="button" class="button ghost" onclick="addMember()">Tambah Anggota</button>
   </div>
+
+  <!-- SEGMENT PERUBAHAN ADMINISTRASI -->
+  <div class="form-card">
+    <h2>Perubahan Administrasi</h2>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Jenis Perubahan</label>
+        <select name="perubahan">
+          <option value="">-- Pilih --</option>
+          <option value="penambahan_kk">Penambahan KK</option>
+          <option value="anggota_baru">Anggota Baru (Lahir / Pindah Datang)</option>
+          <option value="pengurangan_anggota">Pengurangan Anggota (Meninggal / Pindah Keluar / Cerai)</option>
+          <option value="koreksi_data">Koreksi Data</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Catatan / Dokumen Pendukung</label>
+        <textarea name="catatan" rows="3"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- SEGMENT CATATAN & VERIFIKASI RT -->
+  <div class="form-card">
+    <h2>Catatan & Verifikasi RT</h2>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Status Validasi</label>
+        <select name="status_validasi">
+          <option value="belum_dicek">Belum Dicek</option>
+          <option value="sesuai">Sesuai</option>
+          <option value="ada_kesalahan">Ada Kesalahan</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Catatan Verifikasi RT</label>
+        <textarea name="catatan_rt" rows="2"></textarea>
+      </div>
+      <div class="form-group">
+        <label>Tanda Tangan / Inisial RT</label>
+        <input type="text" name="ttd_rt">
+      </div>
+    </div>
+  </div>
+
+  <!-- ACTIONS -->
+  <div class="form-card">
+    <div class="form-row">
+      <button type="submit" class="button primary">Simpan / Finalisasi</button>
+      <button type="button" class="button ghost" onclick="exportExcel()">Export Excel</button>
+    </div>
+  </div>
+
 </form>
 
-<!-- Dashboard RT -->
-<h2>Dashboard RT</h2>
-<div id="dashboard"></div>
+<!-- DASHBOARD -->
+<div class="form-card">
+  <h2>Dashboard RT</h2>
+  <div id="dashboard"></div>
+</div>
 
-<!-- Script ExcelJS / SheetJS -->
 <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
 <script src="script.js"></script>
 </div>
