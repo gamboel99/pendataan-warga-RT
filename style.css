@@ -1,0 +1,13 @@
+
+body{font-family:Arial,sans-serif;background:#f6f8fb;margin:0;padding:0;}
+.container{max-width:900px;margin:20px auto;background:#fff;padding:20px;border-radius:10px;box-shadow:0 6px 18px rgba(0,0,0,0.1);}
+h2,h3{color:#03204a;}
+label{display:block;margin:8px 0 4px;}
+input, select, textarea{width:100%;padding:8px;margin-bottom:10px;border-radius:6px;border:1px solid #ccc;}
+.button{background:#0b63d6;color:#fff;padding:10px 16px;border:none;border-radius:6px;cursor:pointer;margin-top:8px;}
+.member{border:1px solid #dfeafc;padding:12px;margin-bottom:12px;border-radius:8px;position:relative;}
+.remove-member{position:absolute;top:10px;right:10px;background:#ff4d4f;color:#fff;padding:2px 6px;border:none;border-radius:4px;cursor:pointer;}
+#dashboard table{width:100%;border-collapse:collapse;margin-top:12px;}
+#dashboard th,#dashboard td{border:1px solid #ccc;padding:6px;text-align:center;font-size:13px;}
+#dashboard th{background:#f0f4ff;}
+.member-flag{background:#ffdddd;}

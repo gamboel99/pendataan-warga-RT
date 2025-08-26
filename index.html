@@ -1,0 +1,56 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formulir Pendataan Kependudukan RT</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+<h2>Formulir Data Keluarga</h2>
+<form id="kkForm">
+  <h3>Data KK</h3>
+  <label>Nomor KK</label>
+  <input type="text" name="nomor_kk" required>
+  <label>Alamat</label>
+  <textarea name="alamat" rows="2" required></textarea>
+  
+  <label>RT</label>
+  <input type="text" name="rt" required>
+  <label>RW</label>
+  <input type="text" name="rw" required>
+<label>Kepala Keluarga</label>
+  <input type="text" name="kepala_keluarga" required>
+
+  <h3>Anggota Keluarga</h3>
+  <div id="members"></div>
+  <button type="button" class="button" onclick="addMember()">Tambah Anggota</button>
+
+  <h3>Perubahan Administrasi</h3>
+  <label>Jenis Perubahan</label>
+  <select name="perubahan">
+    <option value="">-- Pilih --</option>
+    <option value="lahir">Lahir</option>
+    <option value="meninggal">Meninggal</option>
+    <option value="cerai">Cerai</option>
+    <option value="pindah_datang">Pindah Datang</option>
+    <option value="pindah_keluar">Pindah Keluar</option>
+    <option value="perubahan_data">Perubahan Data</option>
+  </select>
+  <label>Catatan / Penjelasan</label>
+  <textarea name="catatan" rows="3"></textarea>
+
+  <button type="submit" class="button">Simpan / Finalisasi</button>
+  <button type="button" class="button" onclick="exportExcel()">Export Excel</button>
+</form>
+
+<h3>Dashboard RT</h3>
+<div id="dashboard"></div>
+</div>
+
+<script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
