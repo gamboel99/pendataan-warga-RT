@@ -1,53 +1,81 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Form Pendataan UMKM Desa</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistem Validasi Data Warga</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
-    <h1>Form Pendataan UMKM Desa</h1>
-    <form id="umkmForm">
-      <label>Nama Pemilik:</label>
-      <input type="text" id="nama" required />
+  <header>
+    <h1>Sistem Validasi Data Warga Desa</h1>
+    <nav>
+      <button onclick="showSection('beranda')">Beranda</button>
+      <button onclick="showSection('form')">Update Data</button>
+      <button onclick="showSection('dashboard')">Dashboard RT/RW</button>
+    </nav>
+  </header>
 
-      <label>Nama Usaha:</label>
-      <input type="text" id="usaha" required />
+  <main>
+    <!-- BERANDA -->
+    <section id="beranda" class="active">
+      <h2>Contoh Kesalahan Data</h2>
+      <p>Tabel berikut memperlihatkan potensi kesalahan umum yang sering terjadi:</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Jenis Data</th>
+            <th>Kesalahan Umum</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Nama</td><td>Perbedaan ejaan di KTP vs Ijazah</td></tr>
+          <tr><td>Nama Orang Tua</td><td>Tidak sesuai antara Akta & KK</td></tr>
+          <tr><td>Tanggal Lahir</td><td>Beda format di Akta vs Ijazah</td></tr>
+          <tr><td>Pendidikan Terakhir</td><td>Belum diupdate setelah lulus</td></tr>
+          <tr><td>Pekerjaan</td><td>Data lama (belum update setelah pindah kerja)</td></tr>
+        </tbody>
+      </table>
+    </section>
 
-      <label>Sektor Usaha:</label>
-      <input type="text" id="sektor" required />
+    <!-- FORM UPDATE -->
+    <section id="form">
+      <h2>Form Update Data Warga</h2>
+      <form id="dataForm">
+        <label>Nama Lengkap: <input type="text" id="nama" required></label>
+        <label>NIK: <input type="text" id="nik" required></label>
+        <label>Nama Ayah: <input type="text" id="ayah" required></label>
+        <label>Nama Ibu: <input type="text" id="ibu" required></label>
+        <label>Pendidikan Terakhir: <input type="text" id="pendidikan" required></label>
+        <label>Pekerjaan: <input type="text" id="pekerjaan" required></label>
+        <button type="submit">Simpan</button>
+      </form>
+    </section>
 
-      <label>Alamat:</label>
-      <textarea id="alamat" required></textarea>
+    <!-- DASHBOARD -->
+    <section id="dashboard">
+      <h2>Dashboard RT/RW/Pemdes</h2>
+      <table id="dataTable">
+        <thead>
+          <tr>
+            <th>Nama</th>
+            <th>NIK</th>
+            <th>Ayah</th>
+            <th>Ibu</th>
+            <th>Pendidikan</th>
+            <th>Pekerjaan</th>
+            <th>Status Validasi</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
+  </main>
 
-      <label>No. HP:</label>
-      <input type="text" id="hp" required />
+  <footer>
+    <p>&copy; 2025 Sistem Data Warga Desa</p>
+  </footer>
 
-      <div class="buttons">
-        <button type="button" id="saveDraft">Save Draft</button>
-        <button type="button" id="saveFinal">Save Final</button>
-      </div>
-    </form>
-
-    <h2>Data UMKM Tersimpan</h2>
-    <table id="dataTable">
-      <thead>
-        <tr>
-          <th>Nama Pemilik</th>
-          <th>Nama Usaha</th>
-          <th>Sektor</th>
-          <th>Alamat</th>
-          <th>No. HP</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-    <button id="exportExcel">Export ke Excel</button>
-  </div>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
